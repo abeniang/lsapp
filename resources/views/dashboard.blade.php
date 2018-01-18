@@ -9,12 +9,27 @@
 
                 <div class="panel-body">
                     <h3>Your Blog Posts</h3>
-                    <li><a href="/posts/create">Create Post</a></li>
-                    {{--  @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif  --}}
+                    <a href="/posts/create" class="btn btn-primary">Create Post</a>
+                    {{--  @if(count($posts))  --}}
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Title</td>
+                            <td></td>
+                            <td></td>
+                        </tr>  
+                        @foreach($posts as $post)                      
+                            <tr>
+                                <td>{{$post->title}}</td>
+                                <td><a href="/posts/{{$post->id}}/edit" class="btn btn-default">Edit</a></th>
+                                <td>
+                                    {!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                    {!!Form::close()!!}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
